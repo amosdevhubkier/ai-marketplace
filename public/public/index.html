@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AI Marketplace</title>
+</head>
+<body>
+  <h1>Liste des entreprises</h1>
+  <div id="list"></div>
+
+  <script>
+    fetch('/api/businesses')
+      .then(res => res.json())
+      .then(data => {
+        const container = document.getElementById('list');
+        data.forEach(b => {
+          container.innerHTML += `
+            <p>
+              <b>${b.name}</b> (${b.sector})
+              <button onclick="contact(${b.id})">Contacter</button>
+            </p>
+          `;
+        });
+      });
+
+    function contact(id){
+      window.location.href = "/chat.html?businessId=" + id;
+    }
+  </script>
+</body>
+</html>
