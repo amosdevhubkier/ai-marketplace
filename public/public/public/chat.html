@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Chat</title>
+</head>
+<body>
+  <h2>Chat avec l'entreprise</h2>
+
+  <input id="message" placeholder="Votre message..." />
+  <button onclick="send()">Envoyer</button>
+
+  <p id="response"></p>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const businessId = params.get("businessId");
+
+    function send(){
+      const content = document.getElementById("message").value;
+
+      fetch('/api/message', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ businessId, content })
+      })
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById("response").innerText = data.reply;
+      });
+    }
+  </script>
+</body>
+</html>
